@@ -25,8 +25,102 @@ public static void main(String args[]) {
 	albums.get(0).addToPlayList("Boyfriend", playList);
 	albums.get(1).addToPlayList("Trading Places", playList);
 	albums.get(1).addToPlayList("Yeah", playList);
-}
 	
+	play(playList);
+}
+private static void play(LinkedList<Song> playList) {
+	// TODO Auto-generated method stub
+	Scanner sc = new Scanner(System.in);
+	boolean quit = false;
+	boolean forward = true;
+	
+	ListIterator<Song> listIterator = playList.listIterator();
+	
+	if(playList.size() == 0) {
+		System.out.println("This Playlist has no songs") ;
+		}
+	else {
+		System.out.println("Now Playing" + listIterator.next().toString());
+		printMenu();
+	}
+	
+	while(!quit) {
+		int action = sc.nextInt();
+		sc.nextLine();
+		
+		switch(action) {
+		case 0:
+			System.out.println("Playlist Complete");
+			quit = true;
+			break;
+		case 1:
+			if(!forward) {
+				if(listIterator.hasNext()) {
+					System.out.println("Playing next Song: " + listIterator.next().toString());
+					listIterator.next();
+				}
+				forward = true;
+			}
+			else {
+				System.out.println("Next Song does not exist");
+				forward = false;
+			}
+			break;
+		 case 2:
+                if(forward){
+                    if (listIterator.hasPrevious()){
+                        listIterator.previous();
+                    }
+                    forward = false;
+                }
+                if(listIterator.hasPrevious()){
+                    System.out.println("Now playing "+listIterator.previous().toString());
+                }else {
+                    System.out.println("This is the first Song");
+                    forward = false;
+                }
+                break;
+
+            case 3:
+                if(forward){
+                    if(listIterator.hasPrevious()){
+                        System.out.println("Now playing "+listIterator.previous().toString());
+                        forward = false;
+                    }else {
+                        System.out.println("we are at the beginning of the list");
+                    }
+                }else {
+                    if(listIterator.hasNext()){
+                        System.out.println("now playing "+listIterator.next().toString());
+                        forward = true;
+                    }else {
+                        System.out.println("we have reached the end of list");
+                    }
+                }
+                break;
+                
+            case 4:
+            	printList(playList);
+            	break;
+            case 5:
+            	printMenu();
+            	break;
+            case 6:
+            	if(playList.size() > 0) {
+            		listIterator.remove();
+            		System.out.println("Song has been removed");
+            		if(listIterator.hasNext()) {
+            			System.out.println("Now Playing : " + listIterator.next().toString());
+            		}
+            		else if(listIterator.hasPrevious()) {
+            			System.out.println("Now Playing : " + listIterator.previous().toString());
+            		}
+            	}
+		}
+		
+	}
+	
+}
 
 	
 	 private static void printMenu(){
@@ -39,47 +133,20 @@ public static void main(String args[]) {
 	                "5 - Print all available options\n"+
 	                "6 - Delete current song");
 	 }
-		private static void play(LinkedList<Song> playList) {
-			// TODO Auto-generated method stub
-			Scanner sc = new Scanner(System.in);
-			boolean quit = false;
-			boolean forward = true;
-			
-			ListIterator<Song> listIterator = playList.listIterator();
-			
-			if(playList.size()==0) {
-				System.out.println("This Playlist has no songs") ;
-				}
-			else {
-				System.out.println("Now Playing" + listIterator.next().toString());
-				printMenu();
-			}
-			
-			while(!quit) {
-				int action = sc.nextInt();
-				sc.nextLine();
-				
-				switch(action) {
-				case 0:
-					quit = true;
-					break;
-				}
-			}
-			
-		}
+	 
+	 public static void printList(LinkedList<Song> playList) {
+		 Iterator<Song> iterator = playList.iterator();
+		 System.out.println("---------------------------------");
+		 while(iterator.hasNext()) {
+		 	System.out.println(iterator.next());
+		 }
+		 System.out.println("-------------------------------------");
 
-	public static void printList(LinkedList<Song> playList) {
-		Iterator<Song> iterator = playList.iterator();
-		System.out.println("---------------------------------");
-		while(iterator.hasNext()) {
-			System.out.println(iterator.next());
-		}
-		System.out.println("-------------------------------------");
+
+
+
+		 }
 		
-
-
-		
-	}
 }
 
 
